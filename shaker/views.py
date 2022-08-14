@@ -1,4 +1,3 @@
-from http.client import HTTPResponse
 from django.http import HttpResponse
 from django.shortcuts import render
 
@@ -7,4 +6,7 @@ from django.shortcuts import render
 
 
 def index(request):
-    return HttpResponse("hello, new app")
+    return render(request, "shaker/index.html")
+
+def favorites(request):
+    return HttpResponse("my favorites")

@@ -1,0 +1,40 @@
+{% extends "shaker/layout.html" %}
+
+{% block body %}
+{% load crispy_forms_tags %}
+
+
+<div class="container register">
+    <h2>User Registration</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {% comment %} {{ registration_form|crispy }}     {% endcomment %}
+        
+        <div class="row">
+            {{registration_form.username|as_crispy_field}}
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-12">
+              {{registration_form.first_name|as_crispy_field}}
+            </div>
+            <div class="col-lg-6 col-md-12">
+              {{registration_form.last_name|as_crispy_field}}
+            </div>
+          </div>
+          <div class="row">
+              {{registration_form.email|as_crispy_field}}
+          </div>
+          <div class="row">
+              {{registration_form.password1|as_crispy_field}}
+          </div>
+          <div class="row">
+            {{registration_form.password2|as_crispy_field}}
+        </div>
+        
+        <button class="btn btn-dark" type="submit">Register</button>
+    </form>
+    <p class="text-center">If you already have an account, <a href="/login">login</a> instead.</p>
+</div>
+
+
+{% endblock %}

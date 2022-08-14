@@ -1,3 +1,11 @@
 body {
     font-family: 'Gill Sans', 'Trebuchet MS', sans-serif;
 }
+
+a {
+    color: orange;
+}
+
+.register {
+    font-size: 1.2em;
+}

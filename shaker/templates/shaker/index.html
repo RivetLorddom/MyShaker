@@ -2,9 +2,14 @@
 
 {% block body %}
 <h1>This is gonna be a shaker</h1>
-<h2>Eherf</h2>
 
-<div>There</div>
+
+<div>Search for cocktail by name</div>
+    <form class="d-flex" role="search" action="{% url 'index' %}" method="POST">
+        {% csrf_token %}
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="drink_name">
+        <button class="btn btn-dark" type="submit">Search</button>
+    </form>
 
 {% for drink in cocktails %}
     {% for drynk in drink.drinks %}

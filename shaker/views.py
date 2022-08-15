@@ -12,10 +12,17 @@ import requests
 
 
 def index(request):
+
+    # user is looking for a cocktail
+    if request.method == "POST":
+        drink_name = request.POST["drink_name"]
+        return redirect(f"/drink/{drink_name}")
+
+
     cocktails = []
     for _ in range(3):
         response = requests.get('https://www.thecocktaildb.com/api/json/v1/1/random.php').json()
-        # cocktails.append(response)
+        cocktails.append(response)
     return render(request, "shaker/index.html", {"cocktails": cocktails})
 
 def favorites(request):

@@ -5,16 +5,50 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
 from django.urls import reverse
 from .forms import RegistrationForm
+import requests
 
 
 # Create your views here.
 
 
 def index(request):
-    return render(request, "shaker/index.html")
+    cocktails = []
+    for _ in range(3):
+        response = requests.get('https://www.thecocktaildb.com/api/json/v1/1/random.php').json()
+        # cocktails.append(response)
+    return render(request, "shaker/index.html", {"cocktails": cocktails})
 
 def favorites(request):
-    return HttpResponse("my favorites")
+    return render(request, "shaker/favorites.html")
+
+
+def drink_page(request, drink_name):
+    ingredients = []
+    drink = requests.get(f'https://www.thecocktaildb.com/api/json/v1/1/search.php?s={drink_name.lower()}').json()["drinks"][0]
+    
+    for field in drink:
+        if field.startswith("strIngredient"):
+            if drink[field] is not None:
+                ingredients.append(drink[field])
+
+    return render(request, "shaker/single_drink.html", {
+    "drink": drink, 
+    "ingredients": ingredients
+    })
+
+
+def luck(request):
+    ingredients = []
+    drink = requests.get('https://www.thecocktaildb.com/api/json/v1/1/random.php').json()["drinks"][0]
+    
+    for field in drink:
+        if field.startswith("strIngredient"):
+            if drink[field] is not None:
+                ingredients.append(drink[field])
+    return render(request, "shaker/single_drink.html", {
+        "drink": drink, 
+        "ingredients": ingredients
+    })
 
 
 
@@ -41,7 +75,6 @@ def login_view(request):
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            messages.success(request, "Logged in.")
             return redirect("/")
         messages.error(request, "Invalid username or password.")
 

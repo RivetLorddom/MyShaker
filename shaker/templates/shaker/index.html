@@ -1,6 +1,24 @@
 {% extends "shaker/layout.html" %}
 
 {% block body %}
-to be implemented xD
+<h1>This is gonna be a shaker</h1>
+<h2>Eherf</h2>
+
+<div>There</div>
+
+{% for drink in cocktails %}
+    {% for drynk in drink.drinks %}
+        <img src={{ drynk.strDrinkThumb }} alt='' width='200' height='auto'>
+        <div> {{ drynk.strDrink }}</div>
+        <div> {{ drynk.strAlcoholic }}</div>
+        <div> {{ drynk.strInstructions }}</div>
+        <div> {{ drynk.strIngredient1 }}</div>
+        <div> {{ drynk.strIngredient2 }}</div>
+        <div> {{ drynk.strIngredient3 }}</div>
+        <div> {{ drynk.strIngredient4 }}</div>
+        <div> {{ drynk.strIngredient5 }}</div>
+        <div> {{ drynk.strDrink }}</div>
+    {% endfor %}
+{% endfor %}
 
 {% endblock %}

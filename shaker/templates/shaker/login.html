@@ -1,14 +1,17 @@
 {% extends 'shaker/layout.html' %}
 
 {% block body %}
+{% load crispy_forms_tags %}
 
 <div class="container login">
     <h2>Log in</h2>
     <form method="POST">
         {% csrf_token %}
-        {{ login_form }}
-        <button class="btn btn-dark" type"submit">Log in</button>
+        {{ login_form|crispy }}
+        <button class="btn btn-dark login-button" type"submit">Log in</button>
     </form>
+
+    <p class="text-center">Don't have an account yet? <a href="{% url 'register' %}">Register</a> instead.</p>
 </div>
 
 {% endblock %}

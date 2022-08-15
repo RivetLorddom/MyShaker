@@ -1,0 +1,21 @@
+{% extends "shaker/layout.html" %}
+
+{% block body %}
+<h1>Lucky drink for you!</h1>
+
+
+
+    <h2>{{ drink.strDrink }}</h2>
+    <img src={{ drink.strDrinkThumb }} alt='' width='200' height='auto'>
+    <div> {{ drink.strAlcoholic }}</div>
+    
+    <div>
+        <h4>Ingredients:</h4>
+        {% for ing in ingredients %}
+            <li>{{ ing }}</li>
+        {% endfor %}
+    </div>
+    <h4>How to prepare:</h4>
+    <div> {{ drink.strInstructions }}</div>
+
+{% endblock %}

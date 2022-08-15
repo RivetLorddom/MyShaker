@@ -1,21 +1,24 @@
 body {
     font-family: 'Gill Sans', 'Trebuchet MS', sans-serif;
+    margin: 5%;
     margin-top: 5em;
 }
 
 a {
-    color: orange;
+    color: rgb(226, 171, 105);
 }
 
-.register {
+.register, .login {
     font-size: 1.2em;
+}
+
+.login-button {
+    margin-top: 1em;
 }
 
 .nav-login-logout {
     color: white;
     padding-inline-end: 2em;
-
-    
 }
 .nav-link:hover {
     color: rgb(226, 171, 105);

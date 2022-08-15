@@ -1,5 +1,6 @@
 body {
     font-family: 'Gill Sans', 'Trebuchet MS', sans-serif;
+    margin-top: 5em;
 }
 
 a {
@@ -9,3 +10,14 @@ a {
 .register {
     font-size: 1.2em;
 }
+
+.nav-login-logout {
+    color: white;
+    padding-inline-end: 2em;
+
+    
+}
+.nav-link:hover {
+    color: rgb(226, 171, 105);
+}
+

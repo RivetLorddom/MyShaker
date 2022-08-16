@@ -20,7 +20,7 @@ class Drink(models.Model):
         return self.name
 
 
-    # Method for creating the objects from the json file 
+    # Method for creating the objects from 3rd party json format 
     @classmethod
     def create(cls, **kwargs):
 

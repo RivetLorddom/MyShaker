@@ -34,16 +34,22 @@
         <div class="card mb-3" style="max-width: 540px;">
             <div class="row g-0">
               <div class="col-md-4">
-                <a href="{% url 'drink_page' drink.strDrink %}">
-                    <img src="{{ drink.strDrinkThumb }}" class="img-fluid rounded-start" alt="...">
+                <a href="{% url 'drink_page' drink.name %}">
+                    <img src="{{ drink.image_url }}" class="img-fluid rounded-start" alt="...">
                 </a>
               </div>
               <div class="col-md-8">
                 <div class="card-body">
-                  <h5 class="card-title">{{ drink.strDrink }}</h5>
-                  <p class="card-text">{{ drink.strCategory }}</p>
-                  <p class="card-text">{{ drink.strGlass }}</p>
-                  <p class="card-text"><small class="text-muted">{{ drink.strAlcoholic }}</small></p>
+                  <h5 class="card-title">{{ drink.name }}</h5>
+                  <p class="card-text">{{ drink.category }}</p>
+                  <p class="card-text">{{ drink.glass }}</p>
+                  <p class="card-text"><small class="text-muted">
+                    {% if drink.alcoholic %}
+                        Alcoholic
+                    {% else %}
+                        Non-alcoholic
+                    {% endif %}
+                    </small></p>
                 </div>
               </div>
             </div>

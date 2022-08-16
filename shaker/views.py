@@ -34,16 +34,12 @@ def index(request):
     # user is looking for a cocktail by name
     if request.method == "POST":
         drink_name = request.POST["drink_name"]
-        return redirect(f"/drink/{drink_name}")
+        return redirect(f"/drinks/{drink_name}")
 
+    random_drinks = Drink.objects.order_by('?')[0:10]
 
-
-    drinks = []
-    for _ in range(5):
-        response = requests.get('https://www.thecocktaildb.com/api/json/v1/1/random.php').json()["drinks"][0]
-        drinks.append(response)
     return render(request, "shaker/index.html", {
-        "drinks": drinks,
+        "drinks": random_drinks,
         "categories": Category.objects.all()
     })
 
@@ -52,31 +48,18 @@ def favorites(request):
 
 
 def drink_page(request, drink_name):
-    ingredients = []
-    drink = requests.get(f'https://www.thecocktaildb.com/api/json/v1/1/search.php?s={drink_name.lower()}').json()["drinks"][0]
-    
-    for field in drink:
-        if field.startswith("strIngredient"):
-            if drink[field] is not None:
-                ingredients.append(drink[field])
-
+    drink = Drink.objects.filter(name__icontains=drink_name)[0]
+        
     return render(request, "shaker/single_drink.html", {
-    "drink": drink, 
-    "ingredients": ingredients
+    "drink": drink
     })
 
 
 def luck(request):
-    ingredients = []
-    drink = requests.get('https://www.thecocktaildb.com/api/json/v1/1/random.php').json()["drinks"][0]
+    random_drink = Drink.objects.order_by('?')[0]
     
-    for field in drink:
-        if field.startswith("strIngredient"):
-            if drink[field] is not None:
-                ingredients.append(drink[field])
     return render(request, "shaker/single_drink.html", {
-        "drink": drink, 
-        "ingredients": ingredients
+        "drink": random_drink
     })
 
 

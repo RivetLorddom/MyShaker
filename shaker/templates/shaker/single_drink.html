@@ -5,21 +5,25 @@
 
 
 
-    <h2>{{ drink.strDrink }}</h2>
-    <img src={{ drink.strDrinkThumb }} alt='' width='200' height='auto'>
+    <h2>{{ drink.name }}</h2>
+    <img src={{ drink.image_url }} alt='' width='400' height='auto'>
     <div>
-        <p class="basic-info">Category:   {{ drink.strCategory }}</p>
-        <p class="basic-info">Glass:   {{ drink.strGlass }}</p>
-        <p class="basic-info">Type:   {{ drink.strAlcoholic }}</p>
+        <p class="basic-info">Category:   {{ drink.category }}</p>
+        <p class="basic-info">Glass:   {{ drink.glass }}</p>
+        {% if drink.alcoholic %}
+        <p class="basic-info">Type:   Alcoholic</p>
+        {% else %}
+        <p class="basic-info">Type:   Non-alcoholic</p>
+        {% endif %}
     </div>
     
     <div>
         <h4>Ingredients:</h4>
-        {% for ing in ingredients %}
-            <li>{{ ing }}</li>
+        {% for ingredient in drink.ingredients.all %}
+            <li>{{ ingredient }}</li>
         {% endfor %}
     </div>
     <h4>How to prepare:</h4>
-    <div> {{ drink.strInstructions }}</div>
+    <div> {{ drink.instructions }}</div>
 
 {% endblock %}

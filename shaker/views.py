@@ -7,6 +7,23 @@ from django.urls import reverse
 from .forms import RegistrationForm
 import requests
 
+from .models import User, Drink, Category, Ingredient, Glass
+
+
+# =====
+# Getting database prepopulated:
+from .models import Drink
+import json
+
+def prepopulate():
+    with open('drink_data.json', encoding='utf-8') as data_file:
+        json_data = json.loads(data_file.read())
+
+        for drink_data in json_data["drinks"]:
+            drink = Drink.create(**drink_data)
+       
+# =====
+
 
 # Create your views here.
 
@@ -19,19 +36,7 @@ def index(request):
         drink_name = request.POST["drink_name"]
         return redirect(f"/drink/{drink_name}")
 
-    categories = [
-        "Ordinary Drink",
-        "Cocktail",
-        "Shake",
-        "Other\/Unknown",
-        "Cocoa",
-        "Shot",
-        "Coffee \/ Tea",
-        "Homemade Liqueur",
-        "Punch \/ Party Drink",
-        "Beer",
-        "Soft Drink"
-    ]
+
 
     drinks = []
     for _ in range(5):
@@ -39,7 +44,7 @@ def index(request):
         drinks.append(response)
     return render(request, "shaker/index.html", {
         "drinks": drinks,
-        "categories": categories
+        "categories": Category.objects.all()
     })
 
 def favorites(request):

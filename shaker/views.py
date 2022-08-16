@@ -11,19 +11,36 @@ import requests
 # Create your views here.
 
 
+
 def index(request):
 
-    # user is looking for a cocktail
+    # user is looking for a cocktail by name
     if request.method == "POST":
         drink_name = request.POST["drink_name"]
         return redirect(f"/drink/{drink_name}")
 
+    categories = [
+        "Ordinary Drink",
+        "Cocktail",
+        "Shake",
+        "Other\/Unknown",
+        "Cocoa",
+        "Shot",
+        "Coffee \/ Tea",
+        "Homemade Liqueur",
+        "Punch \/ Party Drink",
+        "Beer",
+        "Soft Drink"
+    ]
 
-    cocktails = []
-    for _ in range(3):
-        response = requests.get('https://www.thecocktaildb.com/api/json/v1/1/random.php').json()
-        cocktails.append(response)
-    return render(request, "shaker/index.html", {"cocktails": cocktails})
+    drinks = []
+    for _ in range(5):
+        response = requests.get('https://www.thecocktaildb.com/api/json/v1/1/random.php').json()["drinks"][0]
+        drinks.append(response)
+    return render(request, "shaker/index.html", {
+        "drinks": drinks,
+        "categories": categories
+    })
 
 def favorites(request):
     return render(request, "shaker/favorites.html")

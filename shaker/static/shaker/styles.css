@@ -24,3 +24,11 @@ a {
     color: rgb(226, 171, 105);
 }
 
+#list-of-cards {
+    margin-top: 3em;
+}
+
+.basic-info {
+    white-space: pre;
+    margin: 0em;
+}

@@ -1,29 +1,59 @@
 {% extends "shaker/layout.html" %}
+{% load static %}
 
 {% block body %}
 <h1>This is gonna be a shaker</h1>
+<br>
 
 
-<div>Search for cocktail by name</div>
+<div>
+    <h3>Search for cocktail by name</h3>
     <form class="d-flex" role="search" action="{% url 'index' %}" method="POST">
         {% csrf_token %}
         <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="drink_name">
         <button class="btn btn-dark" type="submit">Search</button>
     </form>
+</div>
+<br>
+<div>
+    <h3>Choose category</h3>
+    <select id="select_category" class="form-select" aria-label="Default select example">
+        <option selected>All drinks</option>
+        {% for c in categories %}
+        <option>{{ c }}</option>
+        {% endfor %}
+    </select>
+</div>
 
-{% for drink in cocktails %}
-    {% for drynk in drink.drinks %}
-        <img src={{ drynk.strDrinkThumb }} alt='' width='200' height='auto'>
-        <div> {{ drynk.strDrink }}</div>
-        <div> {{ drynk.strAlcoholic }}</div>
-        <div> {{ drynk.strInstructions }}</div>
-        <div> {{ drynk.strIngredient1 }}</div>
-        <div> {{ drynk.strIngredient2 }}</div>
-        <div> {{ drynk.strIngredient3 }}</div>
-        <div> {{ drynk.strIngredient4 }}</div>
-        <div> {{ drynk.strIngredient5 }}</div>
-        <div> {{ drynk.strDrink }}</div>
+<hr>
+
+<div id="list-of-cards">
+    {% for drink in drinks %}
+       
+
+        <div class="card mb-3" style="max-width: 540px;">
+            <div class="row g-0">
+              <div class="col-md-4">
+                <a href="{% url 'drink_page' drink.strDrink %}">
+                    <img src="{{ drink.strDrinkThumb }}" class="img-fluid rounded-start" alt="...">
+                </a>
+              </div>
+              <div class="col-md-8">
+                <div class="card-body">
+                  <h5 class="card-title">{{ drink.strDrink }}</h5>
+                  <p class="card-text">{{ drink.strCategory }}</p>
+                  <p class="card-text">{{ drink.strGlass }}</p>
+                  <p class="card-text"><small class="text-muted">{{ drink.strAlcoholic }}</small></p>
+                </div>
+              </div>
+            </div>
+          </div>
+
     {% endfor %}
-{% endfor %}
+</div>
 
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'shaker/categories.js' %}"></script>
 {% endblock %}

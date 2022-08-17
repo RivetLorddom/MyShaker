@@ -1,9 +1,17 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 class User(AbstractUser):
     favorites = models.ManyToManyField("Drink", related_name="favorited_by", default=None, blank=True)
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "username": self.username,
+            "favorites": [favorite.id for favorite in self.favorites.all()]
+        }
 
 
 class Drink(models.Model):
@@ -18,6 +26,21 @@ class Drink(models.Model):
 
     def __str__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('drink-detail', kwargs={'pk': self.pk})
+
+    def serialize(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            # "creator": self.creator.username,
+            "alcoholic": self.alcoholic,
+            "category": self.category.name,
+            "glass": self.glass.name,
+            "ingredients": [ingredient.name for ingredient in self.ingredients.all()],
+            "instructions": self.instructions
+        }
 
 
     # Method for creating the objects from 3rd party json format 
@@ -56,7 +79,7 @@ class Drink(models.Model):
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, primary_key=True)
 
     class Meta:
         verbose_name_plural = "categories"
@@ -66,14 +89,14 @@ class Category(models.Model):
 
 
 class Ingredient(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, primary_key=True)
 
     def __str__(self):
         return self.name
 
 
 class Glass(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(max_length=30, primary_key=True)
 
     class Meta:
         verbose_name_plural = "glasses"

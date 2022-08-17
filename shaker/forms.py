@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from .models import User
+from .models import User, Category, Glass, Ingredient
+from django.contrib.admin import widgets
 
 # Create your forms here.
 
@@ -24,3 +25,24 @@ class RegistrationForm(UserCreationForm):
         return user
 
 
+
+class AddDrinkForm(forms.Form):
+
+    
+    all_categories = [(category.name, category.name) for category in Category.objects.all().order_by('name')]
+    all_glasses = [(glass.name, glass.name) for glass in Glass.objects.all().order_by('name')]
+    all_ingredients = [(ingr.name, ingr.name) for ingr in Ingredient.objects.all().order_by('name')]
+        
+    name = forms.CharField(label="New drink name")
+    non_alcoholic = forms.BooleanField(label="Non-alcoholic", required=False)
+    category = forms.ChoiceField(label="Category", choices=all_categories, initial="Unspecified", required=True)
+    glass = forms.ChoiceField(label="Glass", choices=all_glasses, initial="Unspecified", required=True)
+    ingredients = forms.MultipleChoiceField(
+        label = "Ingredients",
+        required=True,
+        widget= forms.SelectMultiple(attrs={'class': 'multiselect-dropdown'}),
+        choices=all_ingredients,
+    )
+    instructions = forms.CharField(label="Description", max_length=3000, widget=forms.Textarea)
+    image_url = forms.URLField(label="Image URL (optional)", required=False)
+    

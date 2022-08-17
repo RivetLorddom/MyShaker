@@ -1,45 +1,65 @@
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib import messages
+from django.core.paginator import Paginator
 from django.urls import reverse
-from .forms import RegistrationForm
+from django.views.decorators.csrf import csrf_exempt
+from django.views.generic.edit import CreateView
+from .forms import RegistrationForm, AddDrinkForm
 import requests
+import json
+
+
+from django.core import serializers
 
 from .models import User, Drink, Category, Ingredient, Glass
 
 
 # =====
 # Getting database prepopulated:
-from .models import Drink
-import json
+# from .models import Drink
+# import json
 
-def prepopulate():
-    with open('drink_data.json', encoding='utf-8') as data_file:
-        json_data = json.loads(data_file.read())
+# def prepopulate():
+#     with open('drink_data.json', encoding='utf-8') as data_file:
+#         json_data = json.loads(data_file.read())
 
-        for drink_data in json_data["drinks"]:
-            drink = Drink.create(**drink_data)
+#         for drink_data in json_data["drinks"]:
+#             drink = Drink.create(**drink_data)
        
 # =====
 
 
 # Create your views here.
+class DrinkCreateView(CreateView):
+    model = Drink
+    fields = ['name', 'category', 'glass', 'ingredients', 'instructions', ]
 
+
+
+
+
+def pagination(drinks, request):
+    # show 10 drinks per page
+    paginator = Paginator(drinks, 10)
+    page_number = request.GET.get("page")
+    return paginator.get_page(page_number)
 
 
 def index(request):
-
     # user is looking for a cocktail by name
     if request.method == "POST":
         drink_name = request.POST["drink_name"]
         return redirect(f"/drinks/{drink_name}")
 
-    random_drinks = Drink.objects.order_by('?')[0:10]
+    all_drinks = Drink.objects.all().order_by('creator', '-name').reverse()
+    page_obj = pagination(all_drinks, request)
 
     return render(request, "shaker/index.html", {
-        "drinks": random_drinks,
+        "page_obj": page_obj,
         "categories": Category.objects.all()
     })
 
@@ -61,6 +81,108 @@ def luck(request):
     return render(request, "shaker/single_drink.html", {
         "drink": random_drink
     })
+
+
+def add_drink_form(request):
+    if request.method == "POST":
+        form = AddDrinkForm(request.POST)
+        if form.is_valid():
+            new_drink = Drink()
+            new_drink.creator = request.user
+            new_drink.name = form.cleaned_data["name"]
+            new_drink.category = Category.objects.get(name = form.cleaned_data["category"])
+            new_drink.alcoholic = not(form.cleaned_data["non_alcoholic"])
+            new_drink.glass = Glass.objects.get(name = form.cleaned_data["glass"])
+            new_drink.instructions = form.cleaned_data["instructions"]
+            new_drink.image_url = form.cleaned_data["image_url"]
+            new_drink.save()
+            new_drink.ingredients.set(Ingredient.objects.filter(name__in = form.cleaned_data["ingredients"]))
+
+            messages.success(request, "Drink added to database.")
+            return redirect("/")
+
+    # if request is GET
+    form = AddDrinkForm()
+    return render(request, "shaker/add_new_drink.html", {"form":form})
+
+
+
+# API for user info
+@csrf_exempt
+@login_required
+def user_api(request, user_id):
+
+    # Query for the user
+    try:
+        this_user = User.objects.get(pk=user_id)
+    except User.DoesNotExist:
+        return JsonResponse({"error": "User does not exist"}, status=404)
+
+    # return user info content
+    if request.method == "GET":
+        return JsonResponse(this_user.serialize())
+
+    elif request.method == "PUT":
+        data = json.loads(request.body)
+        if data.get("favorites") is not None:
+            this_user.favorites.set(Drink.objects.filter(id__in = data["favorites"]))
+        this_user.save()
+        return HttpResponse(status=204)
+
+    else:
+        return JsonResponse({"error": "GET or PUT method required for this route"}, status=404)
+
+
+
+
+# API for drink objects
+@csrf_exempt
+@login_required
+def drinks_api(request, drink_id):
+    
+    # Query for the drink
+    try:
+        this_drink = Drink.objects.get(pk=drink_id)
+    except Drink.DoesNotExist:
+        return JsonResponse({"error": "Drink does not exist"}, status=404)
+
+    # return drink info content
+    if request.method == "GET":
+        return JsonResponse(this_drink.serialize())
+
+    else:
+        return JsonResponse({"error": "GET method required for this route"}, status=404)
+
+
+# API for all drinks
+@csrf_exempt
+@login_required
+def all_drinks_api(request):
+    # all_drinks = Drink.objects.all()
+
+    # This was a valid approach, but i want only actual fields
+    # obj_list= Drink.objects.all()
+    # json_data = serializers.serialize("json", obj_list)
+    # return HttpResponse(json_data, content_type='application/json')
+
+    # serialize fields only!
+    # get list of dicts
+    raw_data = serializers.serialize('python', Drink.objects.all())
+    # extract the inner `fields` dicts
+    actual_data = [d['fields'] for d in raw_data]
+    # dump to JSON
+    output = json.dumps(actual_data)
+    return HttpResponse(output)
+
+
+        # if request.method == "GET":
+    #     return JsonResponse(all_drinks.serialize())
+
+    # else:
+    #     return JsonResponse({"error": "GET method required for this route"}, status=404)
+
+
+
 
 
 

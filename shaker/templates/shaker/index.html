@@ -10,7 +10,7 @@
     <h3>Search for cocktail by name</h3>
     <form class="d-flex" role="search" action="{% url 'index' %}" method="POST">
         {% csrf_token %}
-        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="drink_name">
+        <input id="search_bar" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="drink_name">
         <button class="btn btn-dark" type="submit">Search</button>
     </form>
 </div>
@@ -19,8 +19,8 @@
     <h3>Choose category</h3>
     <select id="select_category" class="form-select" aria-label="Default select example">
         <option selected>All drinks</option>
-        {% for c in categories %}
-        <option>{{ c }}</option>
+        {% for category in categories %}
+        <option>{{ category }}</option>
         {% endfor %}
     </select>
 </div>
@@ -28,14 +28,20 @@
 <hr>
 
 <div id="list-of-cards">
-    {% for drink in drinks %}
+    {% for drink in page_obj %}
        
 
         <div class="card mb-3" style="max-width: 540px;">
             <div class="row g-0">
               <div class="col-md-4">
                 <a href="{% url 'drink_page' drink.name %}">
-                    <img src="{{ drink.image_url }}" class="img-fluid rounded-start" alt="...">
+                    <img src="
+                        {% if drink.image_url %}
+                            {{ drink.image_url }} 
+                        {% else %}
+                            {% static 'shaker/cheers.png' %}
+                        {% endif %}
+                    " class="img-fluid rounded-start" alt="...">
                 </a>
               </div>
               <div class="col-md-8">
@@ -58,8 +64,36 @@
     {% endfor %}
 </div>
 
+<!-- pagination menu -->
+<div class="pag-menu">
+    <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+            <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a></li>
+        {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">&laquo; first</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">previous</a></li>
+        {% endif %}
+
+        <li class="page-item active"><a class="page-link active btn-dark" href="">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+
+        {% if page_obj.has_next %}
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a></li>
+            
+        {% else %}
+            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">next</a></li>
+            <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">last &raquo;</a></li>
+        {% endif %}
+    </ul>
+  </div>
+
+
+
 {% endblock %}
 
+
 {% block script %}
-    <script src="{% static 'shaker/categories.js' %}"></script>
+    {% comment %} <script src="{% static 'shaker/categories.js' %}"></script> {% endcomment %}
+    <script src="{% static 'shaker/dynamic_search.js' %}"></script>
 {% endblock %}

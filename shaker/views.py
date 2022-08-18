@@ -1,3 +1,4 @@
+from unicodedata import category
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
@@ -17,20 +18,6 @@ from django.core import serializers
 
 from .models import User, Drink, Category, Ingredient, Glass
 
-
-# =====
-# Getting database prepopulated:
-# from .models import Drink
-# import json
-
-# def prepopulate():
-#     with open('drink_data.json', encoding='utf-8') as data_file:
-#         json_data = json.loads(data_file.read())
-
-#         for drink_data in json_data["drinks"]:
-#             drink = Drink.create(**drink_data)
-       
-# =====
 
 
 # Create your views here.
@@ -63,15 +50,33 @@ def index(request):
         "categories": Category.objects.all()
     })
 
-def favorites(request):
-    return render(request, "shaker/favorites.html")
+
+@login_required
+def favorites(request, username):
+    user = User.objects.filter(username = username)[0]
+    favorites = user.favorites.all()
+
+    page_heading = None
+    if not favorites:
+        page_heading = "No drinks added to favorites yet"
+    return render(request, "shaker/favorites.html", {
+        "favorites": favorites,
+        "page_heading": page_heading
+    })
 
 
 def drink_page(request, drink_name):
+    
+    if request.method == "POST":
+        # delete object, redirect to homepage
+        drink_to_delate = Drink.objects.get(name = drink_name)
+        drink_to_delate.delete()
+        return redirect("/")
+
+    # else request is GET, show the page 
     drink = Drink.objects.filter(name__icontains=drink_name)[0]
-        
     return render(request, "shaker/single_drink.html", {
-    "drink": drink
+        "drink": drink
     })
 
 
@@ -79,7 +84,8 @@ def luck(request):
     random_drink = Drink.objects.order_by('?')[0]
     
     return render(request, "shaker/single_drink.html", {
-        "drink": random_drink
+        "drink": random_drink,
+        "page_heading": "Lucky drink for you!"
     })
 
 
@@ -104,6 +110,32 @@ def add_drink_form(request):
     # if request is GET
     form = AddDrinkForm()
     return render(request, "shaker/add_new_drink.html", {"form":form})
+
+
+def add_essentials(request):
+    # view for adding ingredients, glasses and categories
+    if request.method == "POST":
+        
+        # add ingredient
+        if "add_ingredient" in request.POST:
+            ingredient_name = request.POST["add_ingredient"]
+            Ingredient(name=ingredient_name).save()
+            return redirect("/add")
+
+        # add glass
+        if "add_glass" in request.POST:
+            glass_name = request.POST["add_glass"]
+            Glass(name=glass_name).save()
+            return redirect("/add")
+
+        # add category
+        if "add_category" in request.POST:
+            category_name = request.POST["add_category"]
+            Category(name=category_name).save()
+            return redirect("/add")
+
+    else:
+        return JsonResponse({"error": "POST method required for this route"}, status=404)
 
 
 
@@ -137,7 +169,7 @@ def user_api(request, user_id):
 
 # API for drink objects
 @csrf_exempt
-@login_required
+# @login_required
 def drinks_api(request, drink_id):
     
     # Query for the drink
@@ -156,7 +188,7 @@ def drinks_api(request, drink_id):
 
 # API for all drinks
 @csrf_exempt
-@login_required
+# @login_required
 def all_drinks_api(request):
     # all_drinks = Drink.objects.all()
 

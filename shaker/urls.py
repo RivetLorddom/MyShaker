@@ -7,12 +7,15 @@ from shaker.views import DrinkCreateView
 urlpatterns = [
     path("", views.index, name="index"),
     path("drinks/<str:drink_name>", views.drink_page, name="drink_page"),
-    path("favorites", views.favorites, name="favorites"),
+    path("favorites/<str:username>", views.favorites, name="favorites"),
     path("luck", views.luck, name="luck"),
     path("register", views.register, name="register"),
     path("login", views.login_view, name="login"),
     path("logout", views.logout_view, name="logout"),
     path("add", views.add_drink_form, name="add_drink_form"),
+
+    # path for creating new ingredients, categories, glasses
+    path("add_essentials", views.add_essentials, name="add_essentials"),
 
 
     # path for creating new drinks

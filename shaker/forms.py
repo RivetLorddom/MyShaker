@@ -29,20 +29,21 @@ class RegistrationForm(UserCreationForm):
 class AddDrinkForm(forms.Form):
 
     
-    all_categories = [(category.name, category.name) for category in Category.objects.all().order_by('name')]
-    all_glasses = [(glass.name, glass.name) for glass in Glass.objects.all().order_by('name')]
-    all_ingredients = [(ingr.name, ingr.name) for ingr in Ingredient.objects.all().order_by('name')]
+    # all_categories = [(category.name, category.name) for category in Category.objects.all().order_by('name')]
+    # all_glasses = [(glass.name, glass.name) for glass in Glass.objects.all().order_by('name')]
+    # all_ingredients = [(ingr.name, ingr.name) for ingr in Ingredient.objects.all().order_by('name')]
         
     name = forms.CharField(label="New drink name")
     non_alcoholic = forms.BooleanField(label="Non-alcoholic", required=False)
-    category = forms.ChoiceField(label="Category", choices=all_categories, initial="Unspecified", required=True)
-    glass = forms.ChoiceField(label="Glass", choices=all_glasses, initial="Unspecified", required=True)
-    ingredients = forms.MultipleChoiceField(
+    category = forms.ModelChoiceField(label="Category", queryset=Category.objects.all(), empty_label='Select the category', required=True)
+    glass = forms.ModelChoiceField(label="Glass", queryset=Glass.objects.all(), empty_label='Select the glass', required=True)
+    ingredients = forms.ModelMultipleChoiceField(
         label = "Ingredients",
         required=True,
         widget= forms.SelectMultiple(attrs={'class': 'multiselect-dropdown'}),
-        choices=all_ingredients,
+        queryset=Ingredient.objects.all().order_by('name'),
     )
-    instructions = forms.CharField(label="Description", max_length=3000, widget=forms.Textarea)
+    
+    instructions = forms.CharField(label="Instructions", max_length=3000, widget=forms.Textarea)
     image_url = forms.URLField(label="Image URL (optional)", required=False)
     

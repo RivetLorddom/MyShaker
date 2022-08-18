@@ -27,7 +27,10 @@
 
 <hr>
 
-<div id="list-of-cards">
+<div id="dynamic_search"></div>
+
+<div id="list_of_cards">
+    <div>
     {% for drink in page_obj %}
        
 
@@ -88,12 +91,11 @@
     </ul>
   </div>
 
-
+</div>
 
 {% endblock %}
 
 
 {% block script %}
-    {% comment %} <script src="{% static 'shaker/categories.js' %}"></script> {% endcomment %}
     <script src="{% static 'shaker/dynamic_search.js' %}"></script>
 {% endblock %}

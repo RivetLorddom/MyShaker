@@ -2,37 +2,56 @@
 {% load static %}
 
 {% block body %}
-<h1>Lucky drink for you!</h1>
+
+{% if user.is_authenticated %}
+    <div class="favorite-button">
+        <button id="{{ drink.id }}-{{ user.id }}" class="btn btn-light favorite_button"><img src="{% static 'shaker/star-grey.png' %}" alt=""></button>
+    </div>
+{% endif %}
+    
+<h2>{{ drink.name }}</h2>
 
 
-
-    <h2>{{ drink.name }}</h2>
-    <img src=
+<img src=
     {% if drink.image_url %}
         {{ drink.image_url }} 
     {% else %}
         {% static 'shaker/cheers.png' %}
     {% endif %}
-    alt='' width='400' height='auto'>
-    <div>
-        {% if drink.alcoholic %}
-        <p class="basic-info">Type:   Alcoholic</p>
-        {% else %}
-        <p class="basic-info">Type:   Non-alcoholic</p>
-        {% endif %}
-        <p class="basic-info">Category:   {{ drink.category }}</p>
-        <p class="basic-info">Glass:   {{ drink.glass }}</p>
-    </div>
-    
-    <div>
-        <h4>Ingredients:</h4>
-        {% for ingredient in drink.ingredients.all %}
-            <li>{{ ingredient }}</li>
-        {% endfor %}
-    </div>
-    <h4>How to prepare:</h4>
-    <div> {{ drink.instructions }}</div>
+alt='' width='400' height='auto'>
+
+<div>
+    {% if drink.alcoholic %}
+    <p class="basic-info">Type:   Alcoholic</p>
+    {% else %}
+    <p class="basic-info">Type:   Non-alcoholic</p>
+    {% endif %}
+    <p class="basic-info">Category:   {{ drink.category }}</p>
+    <p class="basic-info">Glass:   {{ drink.glass }}</p>
+</div>
+
+<div>
+    <h4>Ingredients:</h4>
+    {% for ingredient in drink.ingredients.all %}
+        <li>{{ ingredient }}</li>
+    {% endfor %}
+</div>
+
+<h4>How to prepare:</h4>
+<div> {{ drink.instructions }}</div>
+
+
+{% if user.is_authenticated and drink.creator == user %}
+    <form action="{% url 'drink_page' drink.name %}" method="POST">
+        {% csrf_token %}
+        <input type='submit' class="btn btn-dark del_button" value="Delete Drink">
+    </form>
+{% endif %}
 
 
 
+{% endblock %}
+
+{% block script %}
+    <script src="{% static 'shaker/add_favorite.js' %}"></script>
 {% endblock %}

@@ -2,89 +2,39 @@
 {% load static %}
 
 {% block body %}
-<h1>My favorite cocktails</h1>
 
 
-<select class="select" multiple data-mdb-filter="true">
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-    <option value="4">Four</option>
-    <option value="5">Five</option>
-    <option value="6">Six</option>
-    <option value="7">Seven</option>
-    <option value="8">Eight</option>
-    <option value="9">Nine</option>
-    <option value="10">Ten</option>
-  </select>
+<div class="row row-cols-1 row-cols-md-5 g-0">
+    {% for drink in favorites %}
+        <div class="col">
+          <div class="card h-100">
 
+            <a href="{% url 'drink_page' drink.name %}">
+                <img src="
+                    {% if drink.image_url %}
+                        {{ drink.image_url }} 
+                    {% else %}
+                        {% static 'shaker/cheers.png' %}
+                    {% endif %}" class="card-img-top" alt="...">
+            </a>
+            
+            <div class="card-body">
+              <h5 class="card-title">{{ drink.name }}</h5>
+              <p class="card-text">{{ drink.category }}</p>
+              <p class="card-text">{{ drink.glass }}</p>
+            </div>
+            <div class="card-footer">
+              <small class="text-muted">
+                    {% if drink.alcoholic %}
+                        Alcoholic
+                    {% else %}
+                        Non-alcoholic
+                    {% endif %}
+              </small>
+            </div>
+          </div>
+        </div>
+    {% endfor %}
+</div>
 
-  <select class="select" multiple data-mdb-filter="true">
-    <option >Open this select menu</option>
-    <option value="1">One</option>
-    <option value="2">Two</option>
-    <option value="3">Three</option>
-  </select>
-
-
-  <select class="select" multiple data-mdb-option-height="44">
-    <option value="1" data-mdb-secondary-text="Secondary text">One</option>
-    <option value="2" data-mdb-secondary-text="Secondary text">Two</option>
-    <option value="3" data-mdb-secondary-text="Secondary text">Three</option>
-    <option value="4" data-mdb-secondary-text="Secondary text">Four</option>
-    <option value="5" data-mdb-secondary-text="Secondary text">Five</option>
-  </select>
-
-
-
-  <section class="w-100 p-4 d-flex justify-content-center">
-    <div style="width: 22rem;">
-      <div id="select-wrapper-761060" class="select-wrapper"><div class="form-outline"><input class="form-control select-input placeholder-active" type="text" role="listbox" aria-multiselectable="true" aria-disabled="false" aria-haspopup="true" aria-expanded="false" readonly="true"><span class="select-arrow"></span><div class="form-notch"><div class="form-notch-leading" style="width: 9px;"></div><div class="form-notch-middle" style="width: 0px;"></div><div class="form-notch-trailing"></div></div></div><select class="select select-initialized" multiple="">
-        <option value="1" selected="">One</option>
-        <option value="2">Two</option>
-        <option value="3">Three</option>
-        <option value="4">Four</option>
-        <option value="5">Five</option>
-        <option value="6">Six</option>
-        <option value="7">Seven</option>
-        <option value="8">Eight</option>
-      </select></div>
-    </div>
-  </section>
-  
-  
-
-<br>
-
-
-    <select name="cars" id="cars" multiple>
-        <option value="1">Audi</option>
-        <option selected value="2">BMW</option>
-        <option selected value="3">Mercedes</option>
-        <option value="4">Volvo</option>
-        <option value="5">Lexus</option>
-        <option value="6">Tesla</option>
-      </select>
-    
-
-<div class="test">
-
-
-      <select class="test" name="cars" id="cars" multiple multiselect-search="true">
-        <option value="1">Audi</option>
-        <option selected value="2">BMW</option>
-        <option selected value="3">Mercedes</option>
-        <option value="4">Volvo</option>
-        <option value="5">Lexus</option>
-        <option value="6">Tesla</option>
-      </select>
-
-    </div>
-    {% endblock %}
-
-
-
-  
-    {% block script %}
-    <script src="{% static 'shaker/multiselect-dropdown.js' %}"></script>
-    {% endblock%}
+{% endblock %}

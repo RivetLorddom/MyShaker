@@ -48,10 +48,10 @@ class Drink(models.Model):
     def create(cls, **kwargs):
 
         category_name = kwargs['strCategory']
-        categ, created = Category.objects.get_or_create(name=category_name)
+        categ, created = Category.objects.get_or_create(name=category_name.title())
         
         glass_name = kwargs['strGlass']
-        gl, created = Glass.objects.get_or_create(name=glass_name)
+        gl, created = Glass.objects.get_or_create(name=glass_name.title())
 
         alco = kwargs['strAlcoholic']
         if alco == 'Alcoholic':
@@ -71,7 +71,7 @@ class Drink(models.Model):
         for i in range(1, 11):
             ingr_name = kwargs[f'strIngredient{i}']
             if ingr_name:
-                ingr, created = Ingredient.objects.get_or_create(name=ingr_name)
+                ingr, created = Ingredient.objects.get_or_create(name=ingr_name.title())
                 drink.ingredients.add(ingr)
 
         return drink

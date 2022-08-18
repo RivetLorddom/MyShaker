@@ -20,15 +20,6 @@ from .models import User, Drink, Category, Ingredient, Glass
 
 
 
-# Create your views here.
-class DrinkCreateView(CreateView):
-    model = Drink
-    fields = ['name', 'category', 'glass', 'ingredients', 'instructions', ]
-
-
-
-
-
 def pagination(drinks, request):
     # show 10 drinks per page
     paginator = Paginator(drinks, 10)

@@ -27,7 +27,6 @@ class RegistrationForm(UserCreationForm):
 
 
 class AddDrinkForm(forms.Form):
-
     
     # all_categories = [(category.name, category.name) for category in Category.objects.all().order_by('name')]
     # all_glasses = [(glass.name, glass.name) for glass in Glass.objects.all().order_by('name')]

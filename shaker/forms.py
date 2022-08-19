@@ -27,10 +27,6 @@ class RegistrationForm(UserCreationForm):
 
 
 class AddDrinkForm(forms.Form):
-    
-    # all_categories = [(category.name, category.name) for category in Category.objects.all().order_by('name')]
-    # all_glasses = [(glass.name, glass.name) for glass in Glass.objects.all().order_by('name')]
-    # all_ingredients = [(ingr.name, ingr.name) for ingr in Ingredient.objects.all().order_by('name')]
         
     name = forms.CharField(label="New drink name")
     non_alcoholic = forms.BooleanField(label="Non-alcoholic", required=False)

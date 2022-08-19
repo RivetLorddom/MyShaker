@@ -6,7 +6,7 @@ body {
     font-family: 'Gill Sans', 'Trebuchet MS', sans-serif;
     padding: 5%;
     padding-top: 5em;
-    background: url("2.jpg") no-repeat center center fixed; 
+    background: url("background_photo.jpg") no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

@@ -8,7 +8,6 @@
     <h2>User Registration</h2>
     <form autocomplete="off" method="POST">
         {% csrf_token %}
-        {% comment %} {{ registration_form|crispy }}     {% endcomment %}
         
         <div class="row">
             {{registration_form.username|as_crispy_field}}

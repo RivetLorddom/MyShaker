@@ -10,13 +10,15 @@ document.addEventListener('DOMContentLoaded', function() {
     search_bar.addEventListener('keyup', function() {
         typed = search_bar.value
         if (typed === '' && category === 'All drinks') {
-            document.querySelector('#list_of_cards').style.display = 'block'
             document.querySelector('#dynamic_search').style.display = 'none'
+            // reset to avoid glitch in animation
+            document.querySelector('#dynamic_search').innerHTML = ''
+            document.querySelector('#list_of_cards').style.display = 'block'
         } else {
-            document.querySelector('#dynamic_search').style.display = 'block'
             document.querySelector('#list_of_cards').style.display = 'none'
-            // console.log(typed)
+            document.querySelector('#dynamic_search').style.display = 'block'
             get_drinks(typed, category)
+            // console.log(typed)
         }
     } )
 
@@ -32,7 +34,11 @@ document.addEventListener('DOMContentLoaded', function() {
             document.querySelector('#dynamic_search').style.display = 'block'
             document.querySelector('#list_of_cards').style.display = 'none'
             // console.log(category)
-            get_by_category(category, typed)
+            if (category === 'All drinks') {
+                get_drinks(typed, category)
+            } else {
+                get_by_category(category, typed)
+            }
         }
     })
 })
@@ -102,11 +108,11 @@ function create_drink_card(drink) {
         image = '/static/shaker/cheers.png'
     }
     let drink_card = `
-        <div class="card mb-3" style="max-width: 540px;">
+        <div class="card mb-3 fade-in-left drink-card" style="max-width: 540px;">
             <div class="row g-0">
                 <div class="col-md-4">
                     <a href="/drinks/${drink.name}">
-                        <img src="${image}" class="img-fluid rounded-start" alt="...">
+                        <img src="${image}" class="img-fluid rounded-start drink-mini" alt="...">
                     </a>
                 </div>
                 <div class="col-md-8">

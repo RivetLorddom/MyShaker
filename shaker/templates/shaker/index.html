@@ -2,27 +2,31 @@
 {% load static %}
 
 {% block body %}
-<h1>This is gonna be a shaker</h1>
-<br>
 
+<div class="full-form">
+    <h1>Welcome to MyShaker</h1>
+    <br>
 
-<div>
-    <h3>Search for cocktail by name</h3>
-    <form class="d-flex" role="search" action="{% url 'index' %}" method="POST">
-        {% csrf_token %}
-        <input id="search_bar" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="drink_name">
-        <button class="btn btn-dark" type="submit">Search</button>
-    </form>
-</div>
-<br>
-<div>
-    <h3>Choose category</h3>
-    <select id="select_category" class="form-select" aria-label="Default select example">
-        <option selected>All drinks</option>
-        {% for category in categories %}
-        <option>{{ category }}</option>
-        {% endfor %}
-    </select>
+    <div>
+        <div>
+            <h3>Search for drinks and cocktails by name</h3>
+            <form autocomplete="off" class="d-flex" role="search" action="{% url 'index' %}" method="POST">
+                {% csrf_token %}
+                <input id="search_bar" class="form-control me-2 search_bar" type="search" placeholder="Search" aria-label="Search" name="drink_name">
+                <button class="btn btn-light" type="submit">Search</button>
+            </form>
+        </div>
+        <br>
+        <div class="category_sel">
+            <h3>Choose category</h3>
+            <select id="select_category" class="form-select" aria-label="Default select example">
+                <option selected>All drinks</option>
+                {% for category in categories %}
+                <option>{{ category }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
 </div>
 
 <hr>
@@ -34,7 +38,7 @@
     {% for drink in page_obj %}
        
 
-        <div class="card mb-3" style="max-width: 540px;">
+        <div class="card mb-3 fade-in-left drink-card" style="max-width: 540px;">
             <div class="row g-0">
               <div class="col-md-4">
                 <a href="{% url 'drink_page' drink.name %}">
@@ -44,7 +48,7 @@
                         {% else %}
                             {% static 'shaker/cheers.png' %}
                         {% endif %}
-                    " class="img-fluid rounded-start" alt="...">
+                    " class="img-fluid rounded-start drink-mini" alt="...">
                 </a>
               </div>
               <div class="col-md-8">
@@ -78,7 +82,7 @@
             <li class="page-item disabled"><a class="page-link" href="#" tabindex="-1" aria-disabled="true">previous</a></li>
         {% endif %}
 
-        <li class="page-item active"><a class="page-link active btn-dark" href="">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
+        <li class="page-item pagination-color"><a class="page-link btn-dark pagination-color" href="">Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</a></li>
 
         {% if page_obj.has_next %}
             <li class="page-item"><a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a></li>

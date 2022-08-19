@@ -3,50 +3,80 @@
 
 {% block body %}
 
-{% if user.is_authenticated %}
-    <div class="favorite-button">
-        <button id="{{ drink.id }}-{{ user.id }}" class="btn btn-light favorite_button"><img src="{% static 'shaker/star-grey.png' %}" alt=""></button>
-    </div>
-{% endif %}
+
+
+
+<br>
+
+
+<div class="g-0 position-relative upper-part">
     
-<h2>{{ drink.name }}</h2>
+        <div class="d-flex ">
+        {% if user.is_authenticated %}
+            <div class="favorite_button_div">
+                <button id="{{ drink.id }}-{{ user.id }}" class="btn btn-light favorite_button"><img src="{% static 'shaker/star-grey.png' %}" alt=""></button>
+            </div>
+        {% else %}
+            <div class="not_a_button"></div>
+        {% endif %}
+
+        <h2 class="single-name">{{ drink.name }}</h2>
+        </div>
+        <hr>
+
+    <div class="row g-0  position-relative main-window">
+       
+        <div class="col-md-6 mb-md-0 p-md-4 left-side">
+            <img class="main-image" src=
+            {% if drink.image_url %}
+                {{ drink.image_url }} 
+            {% else %}
+                {% static 'shaker/cheers.png' %}
+            {% endif %}
+            alt=''>
+        </div>
+
+    <div class="col-md-5 p-4 ps-md-0 main-content">
 
 
-<img src=
-    {% if drink.image_url %}
-        {{ drink.image_url }} 
-    {% else %}
-        {% static 'shaker/cheers.png' %}
-    {% endif %}
-alt='' width='400' height='auto'>
-
-<div>
-    {% if drink.alcoholic %}
-    <p class="basic-info">Type:   Alcoholic</p>
-    {% else %}
-    <p class="basic-info">Type:   Non-alcoholic</p>
-    {% endif %}
-    <p class="basic-info">Category:   {{ drink.category }}</p>
-    <p class="basic-info">Glass:   {{ drink.glass }}</p>
+        <div class="position-relative">
+            <div>
+                <h4>Ingredients:</h4>
+                {% for ingredient in drink.ingredients.all %}
+                    <li>{{ ingredient }}</li>
+                {% endfor %}
+            </div>
+            
+            <div class="position-absolute top-0 end-0">
+                <div class="basic-group">
+                    {% if drink.alcoholic %}
+                    <p class="basic-info">Type:   Alcoholic</p>
+                    {% else %}
+                    <p class="basic-info">Type:   Non-alcoholic</p>
+                    {% endif %}
+                    <p class="basic-info">Category:   {{ drink.category }}</p>
+                    <p class="basic-info">Glass:   {{ drink.glass }}</p>
+                </div>
+            </div>
+        
+        </div>
+        <div class="instructions">
+            <h4 class="mt-0">How to prepare:</h4>
+            <div> {{ drink.instructions }}</div>
+        </div>
+        
+        {% if user.is_authenticated and drink.creator == user %}
+            <form class="delete-button" action="{% url 'drink_page' drink.name %}" method="POST">
+                {% csrf_token %}
+                <input type='submit' class="btn btn-dark del_button" value="Delete Drink">
+            </form>
+        {% endif %}
+        
+    
+    </div>
+    </div>
 </div>
 
-<div>
-    <h4>Ingredients:</h4>
-    {% for ingredient in drink.ingredients.all %}
-        <li>{{ ingredient }}</li>
-    {% endfor %}
-</div>
-
-<h4>How to prepare:</h4>
-<div> {{ drink.instructions }}</div>
-
-
-{% if user.is_authenticated and drink.creator == user %}
-    <form action="{% url 'drink_page' drink.name %}" method="POST">
-        {% csrf_token %}
-        <input type='submit' class="btn btn-dark del_button" value="Delete Drink">
-    </form>
-{% endif %}
 
 
 

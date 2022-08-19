@@ -39,7 +39,7 @@ class AddDrinkForm(forms.Form):
     ingredients = forms.ModelMultipleChoiceField(
         label = "Ingredients",
         required=True,
-        widget= forms.SelectMultiple(attrs={'class': 'multiselect-dropdown'}),
+        widget= forms.SelectMultiple(attrs={'class': 'multiselect'}),
         queryset=Ingredient.objects.all().order_by('name'),
     )
     

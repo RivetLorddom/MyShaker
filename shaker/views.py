@@ -47,7 +47,7 @@ def favorites(request, username):
     user = User.objects.filter(username = username)[0]
     favorites = user.favorites.all()
 
-    page_heading = None
+    page_heading = "Your favorite drinks in one place"
     if not favorites:
         page_heading = "No drinks added to favorites yet"
     return render(request, "shaker/favorites.html", {

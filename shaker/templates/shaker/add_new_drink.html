@@ -5,80 +5,90 @@
 
 
 {% block body %}
+<div class="full-form">
+
 <h1>Submit a new drink! </h1>
 
-{% comment %} <form action="{% url 'add_drink_form' %}" method="post">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <input type="submit" value="Submit">
-</form> {% endcomment %}
+
 
 <hr>
 
-<div class="add_ingredient" style="display: block;">
-    <form action="{% url 'add_essentials' %}" method="POST">
-        {% csrf_token %}
-        <input type="text" name="add_ingredient" placeholder="Ingredient name"></input>
-        <button class="btn btn-dark" type="submit">Add</button>
-    </form>
-</div>
-
-
-<div class="add_glass" style="display: block;">
-    <form action="{% url 'add_essentials' %}" method="POST">
-        {% csrf_token %}
-        <input type="text" name="add_glass" placeholder="Glass name"></input>
-        <button class="btn btn-dark" type="submit">Add</button>
-    </form>
-</div>
-
-
-<div class="add_category" style="display: block;">
-    <form action="{% url 'add_essentials' %}" method="POST">
-        {% csrf_token %}
-        <input type="text" name="add_category" placeholder="Category name"></input>
-        <button class="btn btn-dark" type="submit">Add</button>
-    </form>
-</div>
-
-
 <div class="container add_drink">
-    <h2>Submit a new drink!</h2>
-    <form action="{% url 'add_drink_form' %}" method="POST">
-        {% csrf_token %}
-       
-        <div class="row">
-            {{form.name|as_crispy_field}}
-        </div>
-        <div class="row">
-            {{form.non_alcoholic|as_crispy_field}}
-        </div>
-        <div class="row">
-            <div class="col-lg-6 col-md-12">
-              {{form.category|as_crispy_field}}
+
+    <div id="add_ingredient" class="hidden-input-div" style="display: none;">  
+        <form action="{% url 'add_essentials' %}" method="POST" autocomplete="off">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+            <input id="focus_add_ingredient" class="form-control" type="text" name="add_ingredient" placeholder="Ingredient name"></input>
+            <button class="btn btn-light hidden-button" id="button-addon2" type="submit">Add</button>
             </div>
-            <div class="col-lg-6 col-md-12">
-                {{form.glass|as_crispy_field}}
+        </form>
+    </div>
+
+
+    <div id="add_glass" class="hidden-input-div" style="display: none;">
+        <form action="{% url 'add_essentials' %}" method="POST" autocomplete="off">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+            <input id="focus_add_glass" class="form-control" type="text" name="add_glass" placeholder="Glass name"></input>
+            <button class="btn btn-light hidden-button" type="submit">Add</button>
             </div>
-        </div>
-        <div class="row">
-            {{form.ingredients|as_crispy_field}}
-        </div>
-        <p class="text-center">Add a new ingredient <a href="{% url 'login' %}">login</a> instead.</p>
-        <div class="row">
-            {{form.instructions|as_crispy_field}}
-        </div>
-        <div class="row">
-            {{form.image_url|as_crispy_field}}
-        </div>
+        </form>
+    </div>
+
+
+    <div id="add_category" class="hidden-input-div" style="display: none;">
+        <form action="{% url 'add_essentials' %}" method="POST" autocomplete="off">
+            {% csrf_token %}
+            <div class="input-group mb-3">
+            <input id="focus_add_category" class="form-control" type="text" name="add_category" placeholder="Category name"></input>
+            <button class="btn btn-light hidden-button" type="submit">Add</button>
+            </div>
+        </form>
+    </div>
+
+
+    
+        <form action="{% url 'add_drink_form' %}" method="POST" autocomplete="off">
+            {% csrf_token %}
         
-        <button class="btn btn-dark" type="submit">Register</button>
-    </form>
+            <div class="row row-form">
+                {{form.name|as_crispy_field}}
+            </div>
+            <div class="row row-form">
+                {{form.non_alcoholic|as_crispy_field}}
+            </div>
+            <div class="row row-form">
+                <div class="col-lg-6 col-md-12">
+                {{form.category|as_crispy_field}}
+                <a id="category" class="add_new">Add a new category</a>
+                </div>
+                <div class="col-lg-6 col-md-12">
+                    {{form.glass|as_crispy_field}}
+                    <a id="glass" class="add_new">Add a new glass</a>
+                </div>
+            </div>
+            <div class="row row-form">
+                <div class="col-lg-6 col-md-12">
+                {{form.ingredients|as_crispy_field}}
+                <a id="ingredient" class="add_new">Add a new ingredient</a>
+                </div>
+            
+                <div class="col-lg-6 col-md-12">
+                {{form.instructions|as_crispy_field}}
+                </div>
+            </div>
+            <div class="row row-form">
+                {{form.image_url|as_crispy_field}}
+            </div>
+            
+            <button class="btn btn-light submit_form_button" type="submit">Submit</button>
+        </form>
+    </div>
+
+
+
 </div>
-
-
-
-
 
 
 
@@ -88,4 +98,5 @@
 
 
 {% block script %}
+<script src="{% static 'shaker/essential_forms.js' %}"></script>
 {% endblock%}

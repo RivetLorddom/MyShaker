@@ -8,7 +8,7 @@
     <form method="POST">
         {% csrf_token %}
         {{ login_form|crispy }}
-        <button class="btn btn-dark login-button" type"submit">Log in</button>
+        <button class="btn btn-light submit_form_button" type"submit">Log in</button>
     </form>
 
     <p class="text-center">Don't have an account yet? <a href="{% url 'register' %}">Register</a> instead.</p>

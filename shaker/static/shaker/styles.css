@@ -1,31 +1,49 @@
-body {
-    font-family: 'Gill Sans', 'Trebuchet MS', sans-serif;
-    margin: 5%;
-    margin-top: 5em;
+html {
+    background: black;
 }
 
-a {
-    color: rgb(226, 171, 105);
+body {
+    font-family: 'Gill Sans', 'Trebuchet MS', sans-serif;
+    padding: 5%;
+    padding-top: 5em;
+    background: url("2.jpg") no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 0%;
+        padding-top: 6em;
+    }
+}
+
+a, .add_new:hover {
+    color:brown;
+}
+
+.add_new {
+    color:rgb(226, 171, 105)
 }
 
 .register, .login {
     font-size: 1.2em;
 }
 
-.login-button {
-    margin-top: 1em;
-}
-
 .nav-login-logout {
     color: white;
     padding-inline-end: 2em;
 }
+
 .nav-link:hover {
     color: rgb(226, 171, 105);
 }
 
-#list_of_cards {
-    margin-top: 3em;
+#list_of_cards, #dynamic_search {
+    margin-top: 2em;
 }
 
 .basic-info {
@@ -33,94 +51,234 @@ a {
     margin: 0em;
 }
 
-
-
-
-
-.test {
-    width: 500px;
-    border: 5px black solid;
+.full-form {
+    color: rgba(255, 255, 255, 0.864);
+    background-color: rgba(0, 0, 0, 0.6);
+    padding-inline: 3em;
+    padding-block: 1em;
+    padding-bottom: 2em;
+    border-radius: 10px;
 }
 
-.multiselect-dropdown{
+.drink-card {
+    background-color: rgba(255, 255, 255, 0.739);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+}
+
+.btn-light {
+    background-color: rgb(229 75 75 / 25%);
+    color: white;
+}
+
+.submit_form_button {
+    background-color:rgba(165, 42, 42, 0.809);
+    margin-top: 1em;
+}
+
+.login, .register {
+    color: rgba(15, 14, 14, 0.873);
+    background-color: rgba(255, 255, 255, 0.6);
+    padding-inline: 3em;
+    padding-block: 1em;
+    padding-bottom: 1em;
+    border-radius: 10px;
+}
+
+.pag-menu {
+    padding-block: 2em;
+}
+
+.page-link {
+    color: black;
+}
+
+.pagination-color {
+    background-color: rgba(165, 42, 42, 0.494);
+    color:white;
+}
+
+.hidden-input-div {
+    width: 20em;
+    max-width: 100%;
+}
+
+.hidden-button {
+    background-color:rgba(165, 42, 42, 0.809);
+}
+
+.multiselect {
     display: inline-block;
-    padding: 2px 5px 0px 5px;
-    border-radius: 4px;
-   
     background-color: white;
-    position: relative;
-    background-repeat: no-repeat;
-    background-position: right .75rem center;
-    background-size: 16px 12px;
-    width: 400px;
-    height: 400px;
+    height: 16rem;
   }
 
-  .multiselect-dropdown span.optext, .multiselect-dropdown span.placeholder{
-    margin-right:0.5em; 
-    margin-bottom:2px;
-    padding:1px 0; 
-    border-radius: 4px; 
-    display:inline-block;
-  }
-  .multiselect-dropdown span.optext{
-    background-color:lightgray;
-    padding:1px 0.75em; 
-  }
-  .multiselect-dropdown span.optext .optdel {
-    float: right;
-    margin: 0 -6px 1px 5px;
-    font-size: 0.7em;
-    margin-top: 2px;
-    cursor: pointer;
-    color: #666;
-  }
-  .multiselect-dropdown span.optext .optdel:hover { color: #c66;}
-  .multiselect-dropdown span.placeholder{
-    color:#ced4da;
-  }
-  .multiselect-dropdown-list-wrapper{
-    box-shadow: gray 0 3px 8px;
-    z-index: 100;
-    padding:2px;
-    border-radius: 4px;
-    border: solid 1px #ced4da;
-    display: none;
-    margin: -1px;
-    position: absolute;
-    top:0;
-    left: 0;
-    right: 0;
-    background: white;
-  }
-  .multiselect-dropdown-list-wrapper .multiselect-dropdown-search{
-    margin-bottom:5px;
-  }
-  .multiselect-dropdown-list{
-    padding:2px;
-    height: 15rem;
-    overflow-y:auto;
-    overflow-x: hidden;
-  }
-  .multiselect-dropdown-list::-webkit-scrollbar {
-    width: 6px;
-  }
-  .multiselect-dropdown-list::-webkit-scrollbar-thumb {
-    background-color: #bec4ca;
-    border-radius:3px;
+.row-form {
+    padding-bottom: 0.6em;
+}
+
+.category_sel {
+    width: 15em;
+}
+
+.search_bar {
+    width: 30em;
+}
+
+.drink-mini {
+    min-height: 100%;
+    object-fit: cover;
+    aspect-ratio: 1 / 1;
+}
+
+.favorite_button_div {
+    background-color: rgba(0, 0, 0, 0);
+    padding-left: 1em;
+}
+
+.favorite_button {
+    background-color:rgba(0, 0, 0, 0);
+    border: none;
+}
+
+.favorite_button:focus, .favorite_button:active, .favorite_button:focus-visible, .favorite_button:focus:active, .favorite_button:hover {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    box-shadow: none;
+}
+
+.single-name {
+    text-align: center;
+    margin:auto;
+    margin-left: 0em;
+}
+
+.upper-part {
+    padding-top: 1em;
+}
+
+.instructions {
+    margin-top: 1em;
+    background-color: rgba(183, 145, 105, 0.207);
+    padding: 1em;
+    padding-bottom: 1.5em;
+    margin-top: 3em;
+    margin-bottom: 2em;
+}
+
+.basic-group {
+    text-align: right;
+}
+
+.main-content {
+    text-align: left;
+    margin-right: auto;
+    padding-right: 3em;
+}
+
+.main-image {
+    max-width: 85%;
+    text-align: center;
+}
+
+.main-window {
+    margin: 0%;
+    padding-bottom: 2em;
+}
+
+.left-side {
+    text-align: center;
+}
+
+.upper-part {
+    background-color: rgba(253, 253, 253, 0.907);
+}
+
+.card-title {
+    margin-bottom: 1em;
+}
+
+.card-text {
+    margin: 0;
+}
+
+.cards-favorites {
+    max-width: 70em;
+    margin: auto;
+    margin-top: 3em;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.card-favorite {
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
+}
+
+.delete-button {
+    position:absolute;
+    bottom:1.5em;
+    right:1.5em;
+}
+
+.not_a_button {
+    width: 2em;
+}
+
+
+
+  
+.fade-in-left {
+	animation: fade-in-left 0.8s cubic-bezier(0.390, 0.575, 0.565, 1.000) 0s both;
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2022-8-18 18:23:45
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation fade-in-left
+ * ----------------------------------------
+ */
+ @keyframes fade-in-left {
+    0% {
+      transform: translateX(-50px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateX(0);
+      opacity: 1;
+    }
   }
   
-  .multiselect-dropdown-list div{
-    padding: 5px;
-  }
-  .multiselect-dropdown-list input{
-    height: 1.15em;
-    width: 1.15em;
-    margin-right: 0.35em;  
-  }
+  
 
-  .multiselect-dropdown-list div:hover{
-    background-color: #ced4da;
+.fade-in-bck {
+	animation: fade-in-bck 0.8s cubic-bezier(0.390, 0.575, 0.565, 1.000) both;
+}
+
+/* ----------------------------------------------
+ * Generated by Animista on 2022-8-18 18:29:46
+ * Licensed under FreeBSD License.
+ * See http://animista.net/license for more info. 
+ * w: http://animista.net, t: @cssanimista
+ * ---------------------------------------------- */
+
+/**
+ * ----------------------------------------
+ * animation fade-in-bck
+ * ----------------------------------------
+ */
+ @keyframes fade-in-bck {
+    0% {
+      transform: translateZ(80px);
+      opacity: 0;
+    }
+    100% {
+      transform: translateZ(0);
+      opacity: 1;
+    }
   }
-  .multiselect-dropdown span.maxselected {width:100%;}
-  .multiselect-dropdown-all-selector {border-bottom:solid 1px #999;}
+  

@@ -4,10 +4,10 @@
 {% block body %}
 
 
-<div class="row row-cols-1 row-cols-md-5 g-0">
+<div class="row row-cols-1 row-cols-md-5 g-4 cards-favorites">
     {% for drink in favorites %}
         <div class="col">
-          <div class="card h-100">
+          <div class="card h-100 card-favorite">
 
             <a href="{% url 'drink_page' drink.name %}">
                 <img src="
@@ -15,9 +15,9 @@
                         {{ drink.image_url }} 
                     {% else %}
                         {% static 'shaker/cheers.png' %}
-                    {% endif %}" class="card-img-top" alt="...">
+                    {% endif %}" class="card-img-top drink-mini" alt="...">
             </a>
-            
+
             <div class="card-body">
               <h5 class="card-title">{{ drink.name }}</h5>
               <p class="card-text">{{ drink.category }}</p>

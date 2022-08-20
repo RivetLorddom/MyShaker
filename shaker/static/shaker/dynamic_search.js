@@ -28,8 +28,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         category = this.value
         if (category === 'All drinks' && typed === '') {
-            document.querySelector('#list_of_cards').style.display = 'block'
             document.querySelector('#dynamic_search').style.display = 'none'
+            // reset to avoid glitch in animation
+            document.querySelector('#dynamic_search').innerHTML = ''
+            document.querySelector('#list_of_cards').style.display = 'block'
         } else {
             document.querySelector('#dynamic_search').style.display = 'block'
             document.querySelector('#list_of_cards').style.display = 'none'

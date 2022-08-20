@@ -1,7 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from .models import User, Category, Glass, Ingredient
-from django.contrib.admin import widgets
 
 # Create your forms here.
 

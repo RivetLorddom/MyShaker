@@ -54,8 +54,9 @@ a, .add_new:hover {
 .full-form {
     color: rgba(255, 255, 255, 0.864);
     background-color: rgba(0, 0, 0, 0.6);
-    padding-inline: 3em;
-    padding-block: 1em;
+    padding-right: 3em;
+    padding-left: 3em;
+    padding-top: 1em;
     padding-bottom: 2em;
     border-radius: 10px;
 }
@@ -78,14 +79,16 @@ a, .add_new:hover {
 .login, .register {
     color: rgba(15, 14, 14, 0.873);
     background-color: rgba(255, 255, 255, 0.6);
-    padding-inline: 3em;
-    padding-block: 1em;
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-top: 1em;
     padding-bottom: 1em;
     border-radius: 10px;
 }
 
 .pag-menu {
-    padding-block: 2em;
+    padding-top: 2em;
+    padding-bottom: 2em;
 }
 
 .page-link {

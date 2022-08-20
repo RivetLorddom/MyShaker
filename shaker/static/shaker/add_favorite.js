@@ -18,10 +18,10 @@ async function favorite_state(mixed_id) {
     .then(response => response.json())
     .then(user => {
         if (user['favorites'].includes(Number(drink_id))) {
-            console.log("You like it")
+            // console.log("You like it")
             document.getElementById(mixed_id).innerHTML = `<img src="/static/shaker/star-black.png" alt=""></img>`
         } else {
-            console.log("You dont like it")
+            // console.log("You dont like it")
             document.getElementById(mixed_id).innerHTML = `<img src="/static/shaker/star-grey.png" alt=""></img>`
         }
     })
@@ -51,8 +51,8 @@ function favoriting(mixed_id) {
 
 function add_favorite(user_id, drink_id, favorites) {
     favorites.push(drink_id)
-    console.log("trying to like")
-    console.log(favorites)
+    // console.log("trying to like")
+    // console.log(favorites)
     fetch(`/api/users/${user_id}`, {
         method: "PUT",
         body: JSON.stringify({
@@ -63,8 +63,8 @@ function add_favorite(user_id, drink_id, favorites) {
 
 function del_favorite(user_id, drink_id, favorites) {
     // delete drink from the list of favorites
-    console.log("Trying to unlike")
-    console.log(favorites)
+    // console.log("Trying to unlike")
+    // console.log(favorites)
     for (var i = 0; i < favorites.length; i++) {
         if (favorites[i] === drink_id) {
             favorites.splice(i, 1);

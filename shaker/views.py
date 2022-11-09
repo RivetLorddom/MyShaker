@@ -182,14 +182,6 @@ def drinks_api(request, drink_id):
 # API for all drinks
 @csrf_exempt
 def all_drinks_api(request):
-    # all_drinks = Drink.objects.all()
-
-    # This was a valid approach, but i want only actual fields
-    # obj_list= Drink.objects.all()
-    # json_data = serializers.serialize("json", obj_list)
-    # return HttpResponse(json_data, content_type='application/json')
-
-    # serialize fields only!
     # get list of dicts
     raw_data = serializers.serialize("python", Drink.objects.all())
     # extract the inner `fields` dicts

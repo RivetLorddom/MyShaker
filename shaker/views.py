@@ -15,7 +15,6 @@ from .models import User, Drink, Category, Ingredient, Glass
 import json
 
 
-
 def pagination(drinks, request):
     # show 10 drinks per page
     paginator = Paginator(drinks, 10)
@@ -24,14 +23,19 @@ def pagination(drinks, request):
 
 
 def index(request):
+    all_drinks = Drink.objects.all().order_by("creator", "-name").reverse()
+
     # user is looking for a cocktail by name
     if request.method == "POST":
-        drink_name = request.POST["drink_name"]
-        return redirect(f"/drinks/{drink_name}")
+        typed = request.POST["drink_name"]
+        all_drinks = Drink.objects.filter(name__icontains=typed)
+        # drink_name = request.POST["drink_name"]
+        # return redirect(f"/drinks/{drink_name}")
 
-    all_drinks = Drink.objects.all().order_by("creator", "-name").reverse()
     page_obj = pagination(all_drinks, request)
 
+    if not all_drinks:
+        messages.error(request, "No drink found.")
     return render(
         request,
         "shaker/index.html",
@@ -62,9 +66,14 @@ def drink_page(request, drink_name):
         drink_to_delate.delete()
         return redirect("/")
 
-    # else request is GET, show the page
-    drink = Drink.objects.filter(name__icontains=drink_name)[0]
-    return render(request, "shaker/single_drink.html", {"drink": drink})
+    # else request is GET, show the drink page
+    drinks = Drink.objects.filter(name__icontains=drink_name)
+    drink = drinks[0] if drinks else None
+    if drink:
+        return render(request, "shaker/single_drink.html", {"drink": drink})
+    else:
+        messages.error(request, "No drink found.")
+        return redirect("/")
 
 
 def luck(request):
@@ -192,6 +201,7 @@ def all_drinks_api(request):
 
 
 # VIEWS FOR REGISTER, LOGIN, LOGOUT
+
 
 def register(request):
     if request.method == "POST":

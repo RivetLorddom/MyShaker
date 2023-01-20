@@ -2,6 +2,7 @@
 
 ## Web application for creating, managing and browsing cocktails and other drinks.
 
+#### Live at: http://myshaker.herokuapp.com/
 #### Demonstration video: https://youtu.be/B0k-kDRwnIY
 ----
 ## Background information 
